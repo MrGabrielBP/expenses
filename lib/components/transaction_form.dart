@@ -23,7 +23,7 @@ class TransactionForm extends StatelessWidget {
               ),
             ),
             TextField(
-              controller: titleController,
+              controller: valueController,
               decoration: InputDecoration(
                 labelText: 'Valor (R\$)',
               ),
