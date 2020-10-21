@@ -11,6 +11,28 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MyHomePage(),
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          //MaterialColor - range de cores do mesmo tipo.
+          accentColor: Colors.amber, //cor de realce (secondary)
+          fontFamily: 'Quicksand',
+          //ThemeData.light(): dá o tema padrão azul do Flutter
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+          ),
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
     );
   }
 }
