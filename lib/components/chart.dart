@@ -33,7 +33,8 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay)[0],
         'value': totalSum,
       };
-    });
+    }).reversed.toList();
+    //Os itens estavam na ordem inversa. O reversed inverte pra ordem certa.
   }
 
   double get _weekTotalValue {
