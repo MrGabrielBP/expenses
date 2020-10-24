@@ -11,8 +11,8 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:
-          300, //SingleChildScrollView e ListView precisam de tamanho do pai definido.
+      height: 438,
+      //SingleChildScrollView e ListView precisam de tamanho do pai definido.
       child: transactions.isEmpty
           ? Column(
               children: [
