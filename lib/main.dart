@@ -88,22 +88,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text('Despesas Pessoais'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
+        ),
+      ],
+    );
+
+    //Tamanho total da tela,
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+    //menos o tamanho da appBar, menos a altura do status bar.
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Despesas Pessoais'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          ),
-        ],
-      ),
+      //AppBar extraído para uma variável.
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _removeTransaction),
+            Container(
+              height: availableHeight * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+              height: availableHeight * 0.7,
+              child: TransactionList(_transactions, _removeTransaction),
+            ),
           ],
         ),
       ),
