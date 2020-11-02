@@ -93,9 +93,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    //Pega a orientação
+
     final appBar = AppBar(
       title: Text('Despesas Pessoais'),
       actions: [
+        if (_isLandscape)
+          IconButton(
+            icon:
+                Icon(_showChart ? Icons.format_list_bulleted : Icons.bar_chart),
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+          ),
         IconButton(
           icon: Icon(Icons.add),
           onPressed: () => _openTransactionFormModal(context),
@@ -116,26 +130,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Exibir Gráfico'),
-                Switch(
-                  value: _showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      _showChart = value;
-                    });
-                  },
+            if (_isLandscape)
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text('Exibir Gráfico'),
+              //     Switch(
+              //       value: _showChart,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           _showChart = value;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              if (_showChart || !_isLandscape)
+                Container(
+                  height: availableHeight * (_isLandscape ? 0.7 : 0.3),
+                  child: Chart(_recentTransactions),
                 ),
-              ],
-            ),
-            if (_showChart)
-              Container(
-                height: availableHeight * 0.3,
-                child: Chart(_recentTransactions),
-              ),
-            if (!_showChart)
+            if (!_showChart || !_isLandscape)
               Container(
                 height: availableHeight * 0.7,
                 child: TransactionList(_transactions, _removeTransaction),
