@@ -1,9 +1,11 @@
 import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'components/transaction_list.dart';
 import 'models/transaction.dart';
+import 'dart:io';
 
 main() => runApp(ExpensesApp());
 
@@ -91,78 +93,115 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //Uma solução para IconButton no IOS
+  Widget _getIconButton(IconData icon, Function fn) {
+    return Platform.isIOS
+        //semelhante ao botao
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    bool _isLandscape = mediaQuery.orientation == Orientation.landscape;
     //Pega a orientação
 
-    final appBar = AppBar(
-      title: Text('Despesas Pessoais'),
-      actions: [
-        if (_isLandscape)
-          IconButton(
-            icon:
-                Icon(_showChart ? Icons.format_list_bulleted : Icons.bar_chart),
-            onPressed: () {
-              setState(() {
-                _showChart = !_showChart;
-              });
-            },
-          ),
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _openTransactionFormModal(context),
+    final actions = <Widget>[
+      if (_isLandscape)
+        _getIconButton(
+          _showChart ? Icons.format_list_bulleted : Icons.bar_chart,
+          () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
         ),
-      ],
-    );
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        () => _openTransactionFormModal(context),
+      ),
+    ];
+
+    //todo appBar impleta essa interface PreferredSizeWidgt
+    final PreferredSizeWidget appBar = Platform.isIOS
+        //semelhante ao AppBar()
+        ? CupertinoNavigationBar(
+            //semelhante ao title
+            middle: Text('Despesas Pessoais'),
+            //semelhante ao actions
+            trailing: Row(
+              //vai ocupar o mínimo espaço (tamanho do icone).
+              mainAxisSize: MainAxisSize.min,
+              children: actions,
+            ),
+          )
+        : AppBar(
+            title: Text('Despesas Pessoais'),
+            actions: actions,
+          );
 
     //Tamanho total da tela,
-    final availableHeight = MediaQuery.of(context).size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
     //menos o tamanho da appBar, menos a altura do status bar.
 
-    return Scaffold(
-      //AppBar extraído para uma variável.
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (_isLandscape)
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text('Exibir Gráfico'),
-              //     Switch(
-              //       value: _showChart,
-              //       onChanged: (value) {
-              //         setState(() {
-              //           _showChart = value;
-              //         });
-              //       },
-              //     ),
-              //   ],
-              // ),
-              if (_showChart || !_isLandscape)
-                Container(
-                  height: availableHeight * (_isLandscape ? 0.8 : 0.3),
-                  child: Chart(_recentTransactions),
-                ),
-            if (!_showChart || !_isLandscape)
-              Container(
-                height: availableHeight * (_isLandscape ? 1.0 : 0.7),
-                child: TransactionList(_transactions, _removeTransaction),
-              ),
-          ],
-        ),
+    final bodyPage = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // if (_isLandscape)
+          //   Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text('Exibir Gráfico'),
+          //       //Adapta o design entre cupertino e material
+          //       Switch.adaptive(
+          //         activeColor: Theme.of(context).accentColor,
+          //         value: _showChart,
+          //         onChanged: (value) {
+          //           setState(() {
+          //             _showChart = value;
+          //           });
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          if (_showChart || !_isLandscape)
+            Container(
+              height: availableHeight * (_isLandscape ? 0.8 : 0.3),
+              child: Chart(_recentTransactions),
+            ),
+          if (!_showChart || !_isLandscape)
+            Container(
+              height: availableHeight * (_isLandscape ? 1.0 : 0.7),
+              child: TransactionList(_transactions, _removeTransaction),
+            ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openTransactionFormModal(context),
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+
+    return Platform.isIOS
+        //cupertino style
+        ? CupertinoPageScaffold(
+            //semelhante ao appBar
+            navigationBar: appBar,
+            child: bodyPage,
+          )
+        : Scaffold(
+            //AppBar extraído para uma variável.
+            appBar: appBar,
+            body: bodyPage,
+            //Verifica se a plataforma é IOS. Importar dart:io.
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    onPressed: () => _openTransactionFormModal(context),
+                    child: Icon(Icons.add),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 }
