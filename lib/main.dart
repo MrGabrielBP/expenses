@@ -107,10 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
     bool _isLandscape = mediaQuery.orientation == Orientation.landscape;
     //Pega a orientação
 
+    final IconData iconList =
+        Platform.isIOS ? CupertinoIcons.refresh : Icons.format_list_bulleted;
+
+    final IconData chartList =
+        Platform.isIOS ? CupertinoIcons.refresh : Icons.bar_chart;
+
     final actions = <Widget>[
       if (_isLandscape)
         _getIconButton(
-          _showChart ? Icons.format_list_bulleted : Icons.bar_chart,
+          _showChart ? iconList : chartList,
           () {
             setState(() {
               _showChart = !_showChart;
@@ -147,38 +153,41 @@ class _MyHomePageState extends State<MyHomePage> {
         mediaQuery.padding.top;
     //menos o tamanho da appBar, menos a altura do status bar.
 
-    final bodyPage = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // if (_isLandscape)
-          //   Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Text('Exibir Gráfico'),
-          //       //Adapta o design entre cupertino e material
-          //       Switch.adaptive(
-          //         activeColor: Theme.of(context).accentColor,
-          //         value: _showChart,
-          //         onChanged: (value) {
-          //           setState(() {
-          //             _showChart = value;
-          //           });
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          if (_showChart || !_isLandscape)
-            Container(
-              height: availableHeight * (_isLandscape ? 0.8 : 0.3),
-              child: Chart(_recentTransactions),
-            ),
-          if (!_showChart || !_isLandscape)
-            Container(
-              height: availableHeight * (_isLandscape ? 1.0 : 0.7),
-              child: TransactionList(_transactions, _removeTransaction),
-            ),
-        ],
+    //creates a widget that avoid operating system intefaces.
+    final bodyPage = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // if (_isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('Exibir Gráfico'),
+            //       //Adapta o design entre cupertino e material
+            //       Switch.adaptive(
+            //         activeColor: Theme.of(context).accentColor,
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            if (_showChart || !_isLandscape)
+              Container(
+                height: availableHeight * (_isLandscape ? 0.8 : 0.3),
+                child: Chart(_recentTransactions),
+              ),
+            if (!_showChart || !_isLandscape)
+              Container(
+                height: availableHeight * (_isLandscape ? 1.0 : 0.7),
+                child: TransactionList(_transactions, _removeTransaction),
+              ),
+          ],
+        ),
       ),
     );
 
