@@ -1,4 +1,5 @@
 import 'package:expenses/components/adaptative_button.dart';
+import 'package:expenses/components/adaptative_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -60,21 +61,17 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: [
-              TextField(
+              AdaptativeTextField(
+                label: 'Título',
                 controller: _titleController,
                 onSubmitted: (_) => //_ indica que parâmetro não vai ser usado
                     _submitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Título',
-                ),
               ),
-              TextField(
+              AdaptativeTextField(
+                label: 'Valor (R\$)',
                 controller: _valueController,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Valor (R\$)',
-                ),
               ),
               Container(
                 height: 70,
