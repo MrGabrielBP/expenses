@@ -14,12 +14,12 @@ class TransactionList extends StatelessWidget {
         ? LayoutBuilder(builder: (ctx, constraints) {
             return Column(
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   'Nenhuma transação cadastrada',
                   style: Theme.of(context).textTheme.headline6,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   height: constraints.maxHeight * 0.6,
                   child: Image.asset(
@@ -65,9 +65,9 @@ class TransactionList extends StatelessWidget {
                   //exclusão
                   trailing: MediaQuery.of(context).size.width > 480
                       ? FlatButton.icon(
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           onPressed: () => onRemove(tr.id),
-                          label: Text('Excluir'),
+                          label: const Text('Excluir'),
                           textColor: Theme.of(context).errorColor,
                         )
                       : IconButton(

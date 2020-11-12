@@ -5,7 +5,8 @@ class ChartBar extends StatelessWidget {
   final double value;
   final double percentage;
 
-  ChartBar({
+// O const permite criar um widget constante. Ao recriar a arvore, ele não vai precisar ser renderizado novamente
+  const ChartBar({
     this.label,
     this.value,
     this.percentage,
