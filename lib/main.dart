@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ? CupertinoNavigationBar(
             //semelhante ao title
             middle: Text('Despesas Pessoais'),
-            //semelhante ao actions
+            //Fica no final. Semelhante ao actions
             trailing: Row(
               //vai ocupar o mínimo espaço (tamanho do icone).
               mainAxisSize: MainAxisSize.min,

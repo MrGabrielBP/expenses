@@ -30,6 +30,7 @@ class AdaptativeDatePicker extends StatelessWidget {
         ? Container(
             height: 180,
             //DatePicker do Cupertino
+            //Precisa estar dentro de uma área que tenha um tamanho específico.
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
               initialDateTime: DateTime.now(),
