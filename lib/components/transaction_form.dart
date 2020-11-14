@@ -19,6 +19,29 @@ class _TransactionFormState extends State<TransactionForm> {
 
   DateTime _selectedDate = DateTime.now();
 
+//  PARA CONSULTA:
+
+  //Essa função é chamada parar iniciar o estado.
+  @override //sobrescreve o método da classe mãe.
+  void initState() {
+    super.initState(); //super acessa o método da classe mãe.
+  }
+
+  //Essa função é chamada quando há alteração no estado.
+  @override
+  void didUpdateWidget(covariant TransactionForm oldWidget) {
+    //recebe o widget antigo
+    super.didUpdateWidget(oldWidget);
+  }
+
+  //Essa função é chamada quando o widget é fechado.
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+// PARA CONSULTA ^^
+
   void _submitForm() {
     final title = _titleController.text;
     final value = double.tryParse(_valueController.text) ?? 0.0;
