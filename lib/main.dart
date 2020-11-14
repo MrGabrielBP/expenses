@@ -53,9 +53,32 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+// Mixins são recursos presentes no Dart que nos permitem adicionar um conjunto
+// de “características” a uma classe sem a necessidade de utilizar uma herança.
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _transactions = [];
   bool _showChart = false;
+
+  @override
+  initState() {
+    super.initState();
+    //Adicionando um observer para quando acontecer um evento.
+    WidgetsBinding.instance.addObserver(this); //instancia atual
+    //Registrar essa classe com um observer para ser notificado quando houver mudanças nesse estado da aplicação.
+  }
+
+  //Essa função é chamada quando muda o ciclo de vida da aplicação
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+  }
+// inactive, paused, resumed, suspended
+
+  @override
+  dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
