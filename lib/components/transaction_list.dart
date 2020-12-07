@@ -32,8 +32,8 @@ class TransactionList extends StatelessWidget {
           })
         //SingleChildScrollView e ListView precisam de tamanho do pai definido.
         : ListView.builder(
-            //Usado para carregar conforme for rolado.
-            //O item builder vai receber um contexto (diferente do context do método buid acima).
+            //Usado para carregar sob demanda.
+            //O item builder vai receber um contexto (diferente do context do método build acima).
             //e um index (da lista).
             itemCount: transactions.length,
             itemBuilder: (ctx, index) {

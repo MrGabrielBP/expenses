@@ -157,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         //semelhante ao AppBar()
         ? CupertinoNavigationBar(
             //semelhante ao title
-            middle: Text('Despesas Pessoais'),
+            middle: const Text('Despesas Pessoais'),
             //Fica no final. Semelhante ao actions
             trailing: Row(
               //vai ocupar o mínimo espaço (tamanho do icone).
@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             ),
           )
         : AppBar(
-            title: Text('Despesas Pessoais'),
+            title: const Text('Despesas Pessoais'),
             actions: actions,
           );
 
